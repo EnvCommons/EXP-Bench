@@ -85,7 +85,6 @@ EXP-Bench is a challenging benchmark. The original paper reports that individual
 ## Other Environment Requirements
 
 EXP-Bench requires:
-- **OpenReward API key** (`api_key`) -- for sandbox provisioning
 - **OpenAI API key** (`openai_api_key`) -- for LLM-based grading
 
 ## Safety
