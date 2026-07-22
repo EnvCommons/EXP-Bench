@@ -13,7 +13,7 @@ from openai import AsyncOpenAI
 import requests
 import tiktoken
 
-from openreward.environments import Environment, JSONObject, ToolOutput, tool, TextBlock
+from openreward.environments import Environment, JSONObject, ToolOutput, terminal, tool, TextBlock
 from openreward import AsyncOpenReward, SandboxSettings
 from prompts import (
     AGENT_WORKSPACE_PATH,
@@ -275,11 +275,18 @@ class ExpBench(Environment):
             finished=False,
         )
 
+    @terminal
     @tool
     async def answer(self) -> ToolOutput:
         """
-        Computes the final score. This can only be called once, after all steps have been taken; only call
-        this tool after you have finished all your steps.
+        Compute the final score against the design + conclusion + patch produced
+        by the agent.
+
+        Terminal tool: hidden from the agent, which signals it is done by
+        replying with an ordinary message instead of calling a tool. The
+        message itself is not used — grading reads /workspace/response.json,
+        diffs the workspace, and calls the gpt-5.4 judge; this tool takes no
+        arguments.
         """
         try:
             # Load agent's response

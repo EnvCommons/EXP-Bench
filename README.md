@@ -63,7 +63,7 @@ Ground-truth data includes experiment variable specifications (`design_complexit
 
 ## Tools
 
-Agents have access to 6 tools:
+Agents have access to 5 tools:
 
 | Tool | Description |
 |------|-------------|
@@ -72,7 +72,10 @@ Agents have access to 6 tools:
 | `str_replace` | Replace text in a file (shows diff) |
 | `insert` | Insert content at a specific line number (shows diff) |
 | `create` | Create a new file with given content |
-| `answer` | Submit final response for grading (reads `/workspace/response.json`) |
+
+Grading runs through a hidden `@terminal` tool rather than a tool the agent
+can call: replying with a plain message ends the rollout and triggers grading,
+which reads `/workspace/response.json` plus the workspace diff.
 
 ## Time Horizon
 
