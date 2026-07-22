@@ -406,11 +406,15 @@ class ExpBench(Environment):
 
         except Exception:
             logger.error(f"Error grading: {traceback.format_exc()}")
+            # Terminal tools always end the episode. finished=False here would
+            # leave the rollout in an ambiguous state under the @terminal flow —
+            # there is no retry path once the assistant's message has been
+            # routed through call_terminal_tool.
             return ToolOutput(
                 metadata={"error": f"Error grading: {traceback.format_exc()}"},
                 blocks=[TextBlock(text=f"Error grading: {traceback.format_exc()}")],
                 reward=0.0,
-                finished=False,
+                finished=True,
             )
 
     @tool
